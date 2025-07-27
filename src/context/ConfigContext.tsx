@@ -1,25 +1,25 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import {
-  getFlowLauncherPath,
   getUseAutoTiling,
   getAutoTilingWebSocketUri,
-  getMediaMaxWidth
+  getMediaMaxWidth,
+  getOffsetX
 } from '../utils/getFromEnv';
 
 interface ConfigContextType {
-  flowLauncherPath: string;
   useAutoTiling: boolean;
   autoTilingWebSocketUri: string;
   mediaMaxWidth: string;
   isLoading: boolean;
+  offsetX: string;
 }
 
 const defaultConfig: ConfigContextType = {
-  flowLauncherPath: 'C:\\Program Files\\FlowLauncher\\Flow.Launcher.exe',
   useAutoTiling: false,
   autoTilingWebSocketUri: 'ws://localhost:6123',
   mediaMaxWidth: '400',
-  isLoading: true
+  isLoading: true,
+  offsetX: '0',
 };
 
 const ConfigContext = createContext<ConfigContextType>(defaultConfig);
@@ -36,19 +36,19 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
   useEffect(() => {
     const loadConfig = async () => {
       try {
-        const [flowLauncherPath, useAutoTiling, autoTilingWebSocketUri, mediaMaxWidth] = await Promise.all([
-          getFlowLauncherPath(),
+        const [useAutoTiling, autoTilingWebSocketUri, mediaMaxWidth, offsetX] = await Promise.all([
           getUseAutoTiling(),
           getAutoTilingWebSocketUri(),
           getMediaMaxWidth(),
+          getOffsetX(),
         ]);
 
         setConfig({
-          flowLauncherPath,
           useAutoTiling,
           autoTilingWebSocketUri,
           mediaMaxWidth,
-          isLoading: false
+          isLoading: false,
+          offsetX,
         });
       } catch (error) {
         console.error('Failed to load configuration:', error);
