@@ -3,7 +3,6 @@ import { MediaOutput } from "zebar";
 import { cn } from "../../utils/cn";
 import { Chip } from "../common/Chip";
 import { ConditionalPanel } from "../common/ConditionalPanel";
-import { ProgressBar } from "./components/ProgressBar";
 import { Status } from "./components/Status";
 import { TitleDetails } from "./components/TitleDetails";
 
@@ -72,7 +71,6 @@ export default function Media({ media }: MediaProps) {
             title={currentSession?.title}
             artist={currentSession?.artist}
           />
-          <ProgressBar currentSession={currentSession} />
         </Chip>
       </ConditionalPanel>
     </button>

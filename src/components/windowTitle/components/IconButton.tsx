@@ -4,7 +4,6 @@ import {
   motion,
   AnimatePresence,
   HTMLMotionProps,
-  animate,
 } from "framer-motion";
 import React from "react";
 

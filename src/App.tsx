@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import * as zebar from "zebar";
-import { Center } from "./components/Center";
 import { Chip } from "./components/common/Chip";
 import Media from "./components/media";
 import Stat from "./components/stat";
@@ -38,67 +37,59 @@ function App() {
 
   return (
     <div
-    className="relative flex justify-between items-center bg-background/80 border border-button-border/80 backdrop-blur-3xl text-text h-full antialiased select-none rounded-lg font-mono py-1.5"
-    style={{ width: `calc(100% - ${Number(offsetX) * 2}px)` }}
+      className="relative flex justify-between items-center bg-background/80 border border-button-border/80 backdrop-blur-3xl text-text h-full antialiased select-none rounded-lg font-mono py-1.5"
+      style={{ width: `calc(100% - ${Number(offsetX) * 2}px)` }}
     >
       <div className="flex items-center gap-2 h-full z-10 pl-2">
-        <div className="flex items-center gap-2 h-full">
-          <WorkspaceControls glazewm={output.glazewm} />
-        </div>
+        <WorkspaceControls glazewm={output.glazewm} />
 
-        <div className="h-full flex items-center px-0.5 pr-1">
+        <div className="h-full px-0.5 pr-1">
           <TilingControl glazewm={output.glazewm} />
         </div>
 
-        <div className="h-full flex items-center justify-center">
-          <WindowTitle glazewm={output.glazewm} />
-        </div>
+        <WindowTitle glazewm={output.glazewm} />
       </div>
 
-      <div className="absolute w-full h-full flex items-center justify-center left-0">
-        <Center>
-          {output?.date?.formatted ?? ""}
-        </Center>
+      <div className="absolute w-full h-full flex justify-center items-center transition-all ease-in-out">
+        {output?.date?.formatted ?? ""}
       </div>
 
-      <div className="flex gap-2 items-center h-full z-10 pr-2">
-        <div className="flex items-center h-full">
-          <Chip
-            className="flex items-center gap-3 h-full"
-            as="button"
-            onClick={() => {
-              output.glazewm?.runCommand("shell-exec taskmgr");
-            }}
-          >
-            {output.cpu && (
-              <Stat
-                Icon={<p className="font-medium text-icon">CPU</p>}
-                stat={`${Math.round(output.cpu.usage)}%`}
-                type="inline"
-              />
-            )}
+      <div className="flex gap-2 h-full z-10 pr-2">
+        <Chip
+          className="flex items-center gap-3 h-full"
+          as="button"
+          onClick={() => {
+            output.glazewm?.runCommand("shell-exec taskmgr");
+          }}
+        >
+          {output.cpu && (
+            <Stat
+              Icon={<p className="font-medium text-icon">CPU</p>}
+              stat={`${Math.round(output.cpu.usage)}%`}
+              type="inline"
+            />
+          )}
 
-            {output.memory && (
-              <Stat
-                Icon={<p className="font-medium text-icon">RAM</p>}
-                stat={`${Math.round(output.memory.usage)}%`}
-                type="inline"
-              />
-            )}
-          </Chip>
-        </div>
+          {output.memory && (
+            <Stat
+              Icon={<p className="font-medium text-icon">RAM</p>}
+              stat={
+                `${(output.memory.usedMemory / 1024 / 1024 / 1024).toFixed(2)} GB`
+                + ` / `
+                + `${(output.memory.totalMemory / 1024 / 1024 / 1024).toFixed(2)} GB`
+              }
+              type="inline"
+            />
+          )}
+        </Chip>
 
-        <div className="flex items-center h-full">
-          <VolumeControl
-            playbackDevice={output.audio?.defaultPlaybackDevice}
-            setVolume={output.audio?.setVolume}
-            statIconClassnames={statIconClassnames}
-          />
-        </div>
+        <VolumeControl
+          playbackDevice={output.audio?.defaultPlaybackDevice}
+          setVolume={output.audio?.setVolume}
+          statIconClassnames={statIconClassnames}
+        />
 
-        <div className="flex items-center justify-center gap-3 h-full">
-          <Media media={output.media} />
-        </div>
+        <Media media={output.media} />
       </div>
     </div>
   );
