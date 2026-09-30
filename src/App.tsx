@@ -37,24 +37,26 @@ function App() {
 
   return (
     <div
-      className="relative flex justify-between items-center bg-background/80 border border-button-border/80 backdrop-blur-3xl text-text h-full antialiased select-none rounded-lg font-mono py-1.5"
+      className="relative grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 items-center bg-background/80 border border-button-border/80 backdrop-blur-3xl text-text h-full antialiased select-none rounded-lg font-mono py-1.5"
       style={{ width: `calc(100% - ${Number(offsetX) * 2}px)` }}
     >
-      <div className="flex items-center gap-2 h-full z-10 pl-2">
-        <WorkspaceControls glazewm={output.glazewm} />
+      <div className="flex min-w-0 items-center gap-2 h-full z-10 pl-2">
+        <div className="h-full shrink-0">
+          <WorkspaceControls glazewm={output.glazewm} />
+        </div>
 
-        <div className="h-full px-0.5 pr-1">
+        <div className="h-full shrink-0 px-0.5 pr-1">
           <TilingControl glazewm={output.glazewm} />
         </div>
 
         <WindowTitle glazewm={output.glazewm} />
       </div>
 
-      <div className="absolute w-full h-full flex justify-center items-center transition-all ease-in-out">
+      <div className="h-full flex justify-center items-center whitespace-nowrap transition-all ease-in-out">
         {output?.date?.formatted ?? ""}
       </div>
 
-      <div className="flex gap-2 h-full z-10 pr-2">
+      <div className="flex justify-self-end gap-2 h-full z-10 pr-2">
         <Chip
           className="flex items-center gap-3 h-full"
           as="button"
